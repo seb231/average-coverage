@@ -4,7 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [clojure-csv/clojure-csv "2.0.1"]]
+                 [clojure-csv/clojure-csv "2.0.1"]
+                 [prismatic/schema "1.0.4"]]
   :main ^:skip-aot average-coverage.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
