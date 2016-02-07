@@ -3,6 +3,9 @@
             [clojure.string :as str]
             [clojure.walk :as walk]))
 
+(set! *print-length* 10)
+(set! *warn-on-reflection* true)
+
 (defn load-csv
   [filename]
   (let [normalised-data (-> (slurp filename)
