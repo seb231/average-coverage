@@ -49,5 +49,5 @@
                      (map #(vec (map :percentage_coverage %))))
         mean-coverage (map #(double (/ (reduce + %)
                                       (count %))) lengths)]
-    (zipmap genes mean-coverage)))
+    (spit "average_coverage.txt" (zipmap genes mean-coverage))))
 
