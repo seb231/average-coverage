@@ -53,6 +53,9 @@
                                 %) x)) percentage)
         filtered (map (fn [x] (vec (filter number? (vec x)))) remove-higher)
         mean-coverage (map #(double (/ (reduce + %)
-                                      (count %))) lengths)]
-    (spit "average_coverage.txt" (zipmap genes mean-coverage))))
+                                      (count %))) filtered)
+        output (zipmap genes mean-coverage)]
+    (with-open [file-out (io/writer "average_coverage.txt")]
+      (spit file-out output))))
+
 
