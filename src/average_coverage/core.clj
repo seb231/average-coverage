@@ -39,8 +39,8 @@
 (defn group-by-gene [data] 
   (group-by #(select-keys % [:gene]) data))
 
-(defn -main [filename-str]
-  (let [grouped-data (->> filename-str
+(defn -main [input output]
+  (let [grouped-data (->> input
                           (load-csv)
                           (map #(select-keys % [:gene :percentage_coverage]))
                           (group-by-gene))
@@ -54,8 +54,8 @@
         filtered (map (fn [x] (vec (filter number? (vec x)))) remove-higher)
         mean-coverage (map #(double (/ (reduce + %)
                                       (count %))) filtered)
-        output (zipmap genes mean-coverage)]
-    (with-open [file-out (io/writer "average_coverage.txt")]
-      (spit file-out output))))
+        output-data (zipmap genes mean-coverage)]
+    (with-open [file-out (io/writer output)]
+      (spit file-out output-data))))
 
 
