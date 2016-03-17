@@ -12,6 +12,7 @@
   (.write wrtr (str (-main)))))
 
 (set! *warn-on-reflection* true)
+(set! *print-length* 4000)
 
 (def dataSchema
   {:percentage_coverage Double
