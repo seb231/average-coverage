@@ -40,9 +40,10 @@
   (group-by #(select-keys % [:gene]) data))
 
 (defn -main [filename-str]
-  (let [grouped-data (->> (load-csv filename-str)
-              (map #(select-keys % [:gene :percentage_coverage]))
-              (group-by-gene))
+  (let [grouped-data (->> filename-str
+                          (load-csv)
+                          (map #(select-keys % [:gene :percentage_coverage]))
+                          (group-by-gene))
         genes (->> (map first grouped-data)
                    (map :gene))
         lengths (->> grouped-data
