@@ -46,9 +46,12 @@
                           (group-by-gene))
         genes (->> (map first grouped-data)
                    (map :gene))
-        lengths (->> grouped-data
+        percentage (->> grouped-data
                      (map #(second %)) 
                      (map #(vec (map :percentage_coverage %))))
+        remove-higher (map (fn [x] (map #(if (>= 100.0 %)
+                                %) x)) percentage)
+        filtered (map (fn [x] (vec (filter number? (vec x)))) remove-higher)
         mean-coverage (map #(double (/ (reduce + %)
                                       (count %))) lengths)]
     (spit "average_coverage.txt" (zipmap genes mean-coverage))))
