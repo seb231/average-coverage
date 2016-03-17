@@ -12,6 +12,7 @@
   (.write wrtr (str (-main)))))
 
 (set! *warn-on-reflection* true)
+(set! *print-length* 4000)
 
 (def dataSchema
   {:percentage_coverage Double
@@ -38,16 +39,23 @@
 (defn group-by-gene [data] 
   (group-by #(select-keys % [:gene]) data))
 
-(defn -main []
-  (let [grouped-data (->> (load-csv "data/pulldown.coverage.csv")
-              (map #(select-keys % [:gene :percentage_coverage]))
-              (group-by-gene))
+(defn -main [input output]
+  (let [grouped-data (->> input
+                          (load-csv)
+                          (map #(select-keys % [:gene :percentage_coverage]))
+                          (group-by-gene))
         genes (->> (map first grouped-data)
                    (map :gene))
-        lengths (->> grouped-data
+        percentage (->> grouped-data
                      (map #(second %)) 
                      (map #(vec (map :percentage_coverage %))))
+        remove-higher (map (fn [x] (map #(if (>= 100.0 %)
+                                %) x)) percentage)
+        filtered (map (fn [x] (vec (filter number? (vec x)))) remove-higher)
         mean-coverage (map #(double (/ (reduce + %)
-                                      (count %))) lengths)]
-    (zipmap genes mean-coverage)))
+                                      (count %))) filtered)
+        output-data (zipmap genes mean-coverage)]
+    (with-open [file-out (io/writer output)]
+      (spit file-out output-data))))
+
 
