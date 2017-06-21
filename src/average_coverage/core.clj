@@ -1,4 +1,5 @@
 (ns average-coverage.core
+  (:gen-class)
   (:require [clojure-csv.core :as csv]
             [clojure.string :as str]
             [clojure.walk :as walk]
@@ -13,7 +14,7 @@
   (.write wrtr (str (-main)))))
 
 (set! *warn-on-reflection* true)
-(set! *print-length* 4000)
+
 
 (def dataSchema
   {:percentage_coverage Double
