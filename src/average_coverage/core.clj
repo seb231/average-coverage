@@ -4,7 +4,8 @@
             [clojure.walk :as walk]
             [schema.core :as s]
             [schema.coerce :as coerce]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.data.csv :as csv2]))
 
 
 (comment (use 'clojure.java.io)
@@ -36,26 +37,27 @@
     (->> (map #(walk/keywordize-keys (zipmap headers %1)) parsed-data)
          (map #(coercion dataSchema %)))))
 
-(defn group-by-gene [data] 
+(defn group-by-gene [data]
   (group-by #(select-keys % [:gene]) data))
 
-(defn -main [input output]
-  (let [grouped-data (->> input
+
+
+(defn -main [in-file out-file]
+  (let [grouped-data (->> in-file
                           (load-csv)
                           (map #(select-keys % [:gene :percentage_coverage]))
                           (group-by-gene))
         genes (->> (map first grouped-data)
                    (map :gene))
         percentage (->> grouped-data
-                     (map #(second %)) 
-                     (map #(vec (map :percentage_coverage %))))
+                        (map #(second %))
+                        (map #(vec (map :percentage_coverage %))))
         remove-higher (map (fn [x] (map #(if (>= 100.0 %)
-                                %) x)) percentage)
+                                           %) x)) percentage)
         filtered (map (fn [x] (vec (filter number? (vec x)))) remove-higher)
         mean-coverage (map #(double (/ (reduce + %)
-                                      (count %))) filtered)
+                                       (count %))) filtered)
         output-data (zipmap genes mean-coverage)]
-    (with-open [file-out (io/writer output)]
-      (spit file-out output-data))))
 
-
+    (with-open [writer (io/writer out-file)]
+      (csv2/write-csv writer (into [] output-data)))))
