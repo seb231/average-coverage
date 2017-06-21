@@ -1,36 +1,15 @@
 # average-coverage
 
-FIXME: description
+## Description
 
-## Installation
-
-Download from http://example.com/FIXME.
+A simple program run from the REPL for calculating average coverage of a gene from a list of genes and species
 
 ## Usage
 
-FIXME: explanation
+Expects a csv in this format
 
-    $ java -jar average-coverage-0.1.0-standalone.jar [args]
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Copyright © 2016 Seb Bailey
