@@ -1,36 +1,27 @@
 # average-coverage
 
-FIXME: description
+## Description
 
-## Installation
-
-Download from http://example.com/FIXME.
+A simple program run from the REPL for calculating average coverage of a gene from a list of genes and species
 
 ## Usage
 
-FIXME: explanation
+From the command line use:
 
-    $ java -jar average-coverage-0.1.0-standalone.jar [args]
+```java -jar target/uberjar/average-coverage-0.1.0-SNAPSHOT-standalone.jar "input_file.csv" "output_file.csv"```
 
-## Options
+Expects a csv in this format (no headers):
 
-FIXME: listing of options this app accepts.
+|gene_name |species_name |length_of_fragment |percentage_coverage_of_fragment |
+| --- | --- | --- | --- |
+|gene_A |Homo_sapiens |1218 | 92.34 |
+|gene_A |Pan_troglodytes |426 |32.19 |
+|gene_B |Homo_sapiens |1071 |100 |
+|gene_B |Pan_troglodytes |762 |71.14 |
+|gene_B |Rhinolophus_acuminatus|204 |19.04 |
 
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+Outputs to csv as a list of gene names with associated average percentage coverage.
 
 ## License
 
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Copyright © 2016 Seb Bailey
